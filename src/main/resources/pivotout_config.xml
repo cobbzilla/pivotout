@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pivotout-config projects="608057" token="__auth__token__"> <!-- pivotal tracker auth token -->
+
+    <!-- common configuration stuff for talking to gmail -->
+    <config name="gmail">
+        smtpHost=smtp.gmail.com
+        smtpPort=587
+        smtpUser=smtpUser@example.com
+        smtpPassword=password
+        useTLS=true
+        mail.smtps.auth=true
+        mail.debug=true
+        mail.smtps.port=587
+        mail.smtps.socketFactory.port=587
+        mail.smtps.socketFactory.class=javax.net.ssl.SSLSocketFactory
+        mail.smtps.socketFactory.fallback=false
+        mail.smtp.starttls.enable=true
+        fromEmail=pivotout@example.com
+        fromName=Pivotout
+    </config>
+
+    <rules>
+        <!-- someone was unassigned from a story -->
+        <rule>
+            <trigger type='unassigned'/>
+            <action type='email' config="gmail">
+                toEmail=pivotal-unassigned@example.com
+                subjectTemplate=Abandoned by ${story.mostRecentOwner}: ${story.mostRecentName}
+                messageTemplate=Story URL: ${story.storyUrl}
+            </action>
+        </rule>
+
+        <!-- someone tagged a story as gnarly -->
+        <rule>
+            <trigger type='label-applied'>
+                <config>matchLabel=gnarly</config>
+            </trigger>
+            <action type='email' config="gmail">
+                toEmail=pivotal-gnarly@example.com
+                subjectTemplate=Labeled gnarly: ${story.mostRecentName}
+                messageTemplate=Story URL: ${story.storyUrl}
+            </action>
+        </rule>
+
+        <!-- someone tagged a story as production_exception -->
+        <rule>
+            <trigger type='label-applied'>
+                <config>matchLabel=production_exception</config>
+            </trigger>
+            <action type='email' config="gmail">
+                toEmail=pivotal-prodex@example.com
+                subjectTemplate=Labeled 'production_exception' by ${story.mostRecentOwner}: ${story.mostRecentName}
+                messageTemplate=Story URL: ${story.storyUrl}
+            </action>
+        </rule>
+
+        <!-- someone tagged a story as qa_needed -->
+        <rule>
+            <trigger type='label-applied'>
+                <config>matchLabel=qa_needed</config>
+            </trigger>
+            <action type='email' config="gmail">
+                toEmail=pivotal-qaneeded@example.com
+                subjectTemplate=Labeled 'qa_needed' by ${story.mostRecentOwner}: ${story.mostRecentName}
+                messageTemplate=Story URL: ${story.storyUrl}
+            </action>
+        </rule>
+
+        <!-- someone tagged a story as severity_critical -->
+        <rule>
+            <trigger type='label-applied'>
+                <config>matchLabel=severity_critical</config>
+            </trigger>
+            <action type='email' config="gmail">
+                toEmail=pivotal-critical@example.com
+                subjectTemplate=Labeled 'severity_critical' by ${story.mostRecentOwner}: ${story.mostRecentName}
+                messageTemplate=Story URL: ${story.storyUrl}
+            </action>
+        </rule>
+
+        <!-- someone removed a story from endup -->
+        <rule>
+            <trigger type='label-removed'>
+                <config>matchLabel=endup</config>
+            </trigger>
+            <action type='email' config="gmail">
+                toEmail=pivotal-epic-removed@example.com
+                subjectTemplate=Removed from 'endup' by ${story.mostRecentOwner}: ${story.mostRecentName}
+                messageTemplate=Story URL: ${story.storyUrl}
+            </action>
+        </rule>
+
+        <!-- someone removed a story from fuse -->
+        <rule>
+            <trigger type='label-removed'>
+                <config>matchLabel=fuse</config>
+            </trigger>
+            <action type='email' config="gmail">
+                toEmail=pivotal-epic-removed@example.com
+                subjectTemplate=Removed from 'fuse' by ${story.mostRecentOwner}: ${story.mostRecentName}
+                messageTemplate=Story URL: ${story.storyUrl}
+            </action>
+        </rule>
+
+        <!-- someone removed a story from greens -->
+        <rule>
+            <trigger type='label-removed'>
+                <config>matchLabel=greens</config>
+            </trigger>
+            <action type='email' config="gmail">
+                toEmail=pivotal-epic-removed@example.com
+                subjectTemplate=Removed from 'greens' by ${story.mostRecentOwner}: ${story.mostRecentName}
+                messageTemplate=Story URL: ${story.storyUrl}
+            </action>
+        </rule>
+
+        <!-- someone tagged a story *_maintenance but it lacks an epic tag -->
+        <rule>
+            <trigger type='label-required'>
+                <config>
+                    matchLabel=.+_maintenance
+                    requireLabel=endup,fuse,greens
+                </config>
+            </trigger>
+            <action type='email' config="gmail">
+                toEmail=pivotal-maint-missing-epic@example.com
+                subjectTemplate=Maintenance story missing epic label: ${story.mostRecentName}
+                messageTemplate=Story URL: ${story.storyUrl}
+            </action>
+        </rule>
+
+        <!-- someone tagged a story as production_exception -->
+        <rule>
+            <trigger type='story-created-without-required-label'>
+                <config>
+                    matchLabel=severity_critical,severity_high,severity_med,severity_low
+                    matchStoryType=bug
+                </config>
+            </trigger>
+            <action type='email' config="gmail">
+                toEmail=pivotal-bugmissingseverity@example.com
+                subjectTemplate=Missing severity label: ${story.mostRecentName}
+                messageTemplate=Story URL: ${story.storyUrl}
+            </action>
+        </rule>
+
+        <!-- someone owns too many open stories -->
+        <rule>
+            <trigger type="owner-has-too-many-stories">
+                <config>storyLimit=4</config>
+            </trigger>
+            <action type='email' config="gmail">
+                toEmail=pivotal-manystories@example.com
+                subjectTemplate=${story.mostRecentOwner} has a lot of active stories in project ${story.currentActivity.projectId}
+                messageTemplate=Project link: https://www.pivotaltracker.com/projects/${story.currentActivity.projectId}#
+            </action>
+        </rule>
+
+    </rules>
+</pivotout-config>

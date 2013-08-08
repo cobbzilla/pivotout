@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pivotout-config projects="481513" token="__auth__token__"> <!-- pivotal tracker auth token -->
+
+    <!-- common configuration stuff for talking to gmail -->
+    <config name="gmail">
+        smtpHost=smtp.gmail.com
+        smtpPort=587
+        smtpUser=pivotout@example.com
+        smtpPassword=ESL22,turbot
+        useTLS=true
+        mail.smtps.auth=true
+        mail.debug=true
+        mail.smtps.port=587
+        mail.smtps.socketFactory.port=587
+        mail.smtps.socketFactory.class=javax.net.ssl.SSLSocketFactory
+        mail.smtps.socketFactory.fallback=false
+        mail.smtp.starttls.enable=true
+        fromEmail=pivotout@example.com
+        fromName=Pivotout
+    </config>
+
+    <rules>
+        <!-- someone was unassigned from a story -->
+        <!--<rule>-->
+            <!--<trigger type='unassigned'/>-->
+            <!--<action type='log'>prefix=yomama</action>-->
+        <!--</rule>-->
+
+        <!-- someone tagged a story as gnarly -->
+        <!--<rule>-->
+            <!--<trigger type='label-applied'>-->
+                <!--<config>matchLabel=gnarly</config>-->
+            <!--</trigger>-->
+            <!--<action type='log'>prefix=yopapa</action>-->
+        <!--</rule>-->
+
+        <!-- someone tagged a story as production_exception -->
+        <!--<rule>-->
+            <!--<trigger type='label-applied'>-->
+                <!--<config>matchLabel=production_exception</config>-->
+            <!--</trigger>-->
+            <!--<action type='log'>prefix=yasistatoo</action>-->
+        <!--</rule>-->
+
+        <!-- someone tagged a story as qa_needed -->
+        <!--<rule>-->
+            <!--<trigger type='label-applied'>-->
+                <!--<config>matchLabel=qa_needed</config>-->
+            <!--</trigger>-->
+            <!--<action type='log'>prefix=anjabrotha</action>-->
+        <!--</rule>-->
+
+        <!-- someone tagged a story as severity_critical -->
+        <!--<rule>-->
+            <!--<trigger type='label-applied'>-->
+                <!--<config>matchLabel=severity_critical</config>-->
+            <!--</trigger>-->
+            <!--<action type='log'>prefix=yauncles</action>-->
+        <!--</rule>-->
+
+        <!-- someone removed a story from endup -->
+        <!--<rule>-->
+            <!--<trigger type='label-removed'>-->
+                <!--<config>matchLabel=endup</config>-->
+            <!--</trigger>-->
+            <!--<action type='log'>prefix=yallsaunts</action>-->
+        <!--</rule>-->
+
+        <!-- someone removed a story from fuse -->
+        <!--<rule>-->
+            <!--<trigger type='label-removed'>-->
+                <!--<config>matchLabel=fuse</config>-->
+            <!--</trigger>-->
+            <!--<action type='log'>prefix=inyacuzinstoo</action>-->
+        <!--</rule>-->
+
+        <!-- someone removed a story from greens -->
+        <!--<rule>-->
+            <!--<trigger type='label-removed'>-->
+                <!--<config>matchLabel=greens</config>-->
+            <!--</trigger>-->
+            <!--<action type='log'>prefix=inyacuzinstoo</action>-->
+        <!--</rule>-->
+
+        <!-- someone tagged a story *_maintenance but it lacks an epic tag -->
+        <!--<rule>-->
+            <!--<trigger type='label-required'>-->
+                <!--<config>-->
+                    <!--matchLabel=.+_maintenance-->
+                    <!--requireLabel=endup,fuse,greens-->
+                <!--</config>-->
+            <!--</trigger>-->
+            <!--<action type='log'>prefix=evenyallspets</action>-->
+        <!--</rule>-->
+
+        <!-- someone tagged a story as production_exception -->
+        <!--<rule>-->
+            <!--<trigger type='story-created-without-required-label'>-->
+                <!--<config>-->
+                    <!--matchLabel=severity_critical,severity_high,severity_med,severity_low-->
+                    <!--matchStoryType=bug-->
+                <!--</config>-->
+            <!--</trigger>-->
+            <!--<action type='log'>prefix=foobar</action>-->
+        <!--</rule>-->
+
+        <!-- someone owns too many open stories -->
+        <!--<rule>-->
+            <!--<trigger type="owner-has-too-many-stories">-->
+                <!--<config>storyLimit=4</config>-->
+            <!--</trigger>-->
+        <!--<action type='log'>prefix=igiveup</action>-->
+        <!--</rule>-->
+
+    </rules>
+</pivotout-config>
